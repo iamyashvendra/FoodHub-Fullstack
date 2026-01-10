@@ -5,7 +5,7 @@ import { connectDB } from "./dabase/db.js";
 
 import foodRoute from "./routes/foodRoute.js";
 import userRoute from "./routes/userRoute.js";
-import cartRoute from "./routes/CartRoute.js";
+import cartRoute from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 
 dotenv.config();
