@@ -9,57 +9,57 @@ dotenv.config();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const placeOrder = async (req, res) => {
-  const frontend_url = process.env.FRONTEND_URL;
-
   try {
+    const frontend_url = process.env.FRONTEND_URL;
+
     const newOrder = new orderModel({
       userId: req.userId,
       items: req.body.items,
       amount: req.body.amount,
       address: req.body.address,
-      payment: req.body.payment,
+      payment: false,
     });
 
     await newOrder.save();
 
+    const orderId = newOrder._id.toString(); // ✅ IMPORTANT
+
     await userModel.findByIdAndUpdate(req.userId, { cartData: {} });
 
     const line_items = req.body.items.map((item) => ({
-  price_data: {
-    currency: "inr",
-    product_data: {
-      name: item.name,
-    },
-    unit_amount: item.price * 100,
-  },
-  quantity: item.quantity,
-}));
+      price_data: {
+        currency: "inr",
+        product_data: {
+          name: item.name,
+        },
+        unit_amount: item.price * 100,
+      },
+      quantity: item.quantity,
+    }));
 
-line_items.push({
-  price_data: {
-    currency: "inr",
-    product_data: {
-      name: "Delivery Charges",
-    },
-    unit_amount: 5 * 100,
-  },
-  quantity: 1,
-});
-
+    line_items.push({
+      price_data: {
+        currency: "inr",
+        product_data: { name: "Delivery Charges" },
+        unit_amount: 5 * 100,
+      },
+      quantity: 1,
+    });
 
     const session = await stripe.checkout.sessions.create({
-      line_items: line_items,
+      line_items,
       mode: "payment",
-      success_url: `${FRONTEND_URL}/verify?success=true&orderId=${orderId}`,
-      cancel_url: `${FRONTEND_URL}/verify?success=false&orderId=${orderId}`,
+      success_url: `${frontend_url}/verify?success=true&orderId=${orderId}`,
+      cancel_url: `${frontend_url}/verify?success=false&orderId=${orderId}`,
     });
 
     res.json({ success: true, url: session.url });
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "Error placing order" });
+    console.error("ORDER ERROR:", error);
+    res.status(500).json({ success: false, message: "Error placing order" });
   }
 };
+
 
 const verifyOrder = async (req, res) => {
   const { orderId, success } = req.body;
