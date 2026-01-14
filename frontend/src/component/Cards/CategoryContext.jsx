@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import axios from "axios";
+import api from "../../api";
 
 export const CategoryContext = createContext();
 
@@ -14,7 +15,7 @@ export const CategoryProvider = ({ children }) => {
   // 🛒 CART (BACKEND)
   const [cart, setCart] = useState({});
 
-  const url = "http://localhost:2500";
+  const url = api.defaults.baseURL;
 
   /* ================= FOOD ================= */
   useEffect(() => {
@@ -147,7 +148,7 @@ useEffect(() => {
         filtered,
         food_list,
         cart,
-        toggleCart,   // ✅ NOW DEFINED
+        toggleCart,
         increaseQty,
         decreaseQty,
         url,

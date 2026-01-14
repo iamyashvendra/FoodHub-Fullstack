@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import api from "../../api";
 
 const Orders = () => {
-  const url = "http://localhost:2500";
+  const url = api.defaults.baseURL;
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 

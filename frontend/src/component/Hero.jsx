@@ -24,6 +24,10 @@ const Hero = () => {
           className="absolute inset-0 w-full h-full object-cover"
         />
 
+        {/* Transparent Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/5 via-black/5 to-transparent" />
+
+
         {/* Content */}
         <div
           className="
@@ -56,7 +60,7 @@ const Hero = () => {
           {/* Paragraph */}
           <p
             className="
-              text-white/90 dark:text-gray-300
+              text-white dark:text-white
               text-sm sm:text-base md:text-lg
               leading-relaxed
             "
