@@ -141,21 +141,31 @@ export default function Navbar({ onSignup }) {
 
             {/* AUTH */}
             {!isLoggedIn ? (
+              /* SIGN UP BUTTON — mobile + desktop */
               <button
                 onClick={onSignup}
                 className="
-                  hidden lg:block
-                  px-7 py-2 rounded-full
-                  border border-orange-500
-                  text-black dark:text-white font-medium
-                  transition-all duration-300
-                  hover:shadow-[0_0_25px_rgba(249,115,22,0.7)]
-                  hover:-translate-y-0.5
-                "
+    px-4 py-1.5 text-sm
+    sm:px-5 sm:py-2 sm:text-sm
+    md:px-6 md:py-2 md:text-base
+
+    rounded-full
+    border border-orange-500
+    text-black dark:text-white font-medium
+
+    transition-all duration-300
+    hover:shadow-[0_0_20px_rgba(249,115,22,0.6)]
+    hover:-translate-y-0.5
+
+    active:scale-95
+    whitespace-nowrap
+  "
               >
                 Sign Up
               </button>
+
             ) : (
+              /* USER ICON — only when logged in */
               <div className="relative">
                 <button
                   onClick={() => setProfileOpen(!profileOpen)}
@@ -184,6 +194,7 @@ export default function Navbar({ onSignup }) {
                 )}
               </div>
             )}
+
           </div>
         </>
       )}
