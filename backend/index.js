@@ -11,7 +11,6 @@ import orderRouter from "./routes/orderRoute.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 2500;
 
 // middleware
 app.use(cors());
@@ -26,12 +25,8 @@ app.use("/api/user", userRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/order", orderRouter);
 
-// test route
 app.get("/", (req, res) => {
-  res.send("FoodHub Backend Running");
+  res.send("FoodHub Backend Running ✅");
 });
 
-// ⚡ server start
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+export default app;
